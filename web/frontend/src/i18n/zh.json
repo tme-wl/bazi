@@ -1,0 +1,65 @@
+{
+  "app": {
+    "title": "八字命理",
+    "subtitle": "古老智慧，现代解读"
+  },
+  "nav": {
+    "home": "首页",
+    "about": "关于"
+  },
+  "home": {
+    "heroTitle": "探索你的命运",
+    "heroSubtitle": "通过古老的八字命理智慧，揭示你人生的模式。深入了解事业、感情、健康与人生方向。",
+    "formTitle": "输入出生信息",
+    "birthDate": "出生日期",
+    "birthTime": "出生时间",
+    "gender": "性别",
+    "genderMale": "男",
+    "genderFemale": "女",
+    "unknownTime": "时间未知",
+    "analyzeButton": "分析我的八字",
+    "analyzing": "分析中..."
+  },
+  "loading": {
+    "title": "正在推算八字",
+    "step1": "读取天象位置...",
+    "step2": "计算四柱八字...",
+    "step3": "五行能量映射...",
+    "step4": "解读命理格局...",
+    "step5": "准备您的命理报告..."
+  },
+  "reading": {
+    "title": "您的八字命理分析",
+    "fourPillars": "四柱八字",
+    "dayMaster": "日主",
+    "elementChart": "五行平衡",
+    "patternSummary": "格局概述",
+    "career": "事业运程",
+    "wealth": "财富运势",
+    "relationships": "感情婚姻",
+    "health": "健康状况",
+    "advice": "人生建议",
+    "luckTimeline": "大运流年",
+    "overallAdvice": "总体指引",
+    "adjustment": "调候建议",
+    "element": {
+      "wood": "木",
+      "fire": "火",
+      "earth": "土",
+      "metal": "金",
+      "water": "水"
+    },
+    "rating": {
+      "good": "有利",
+      "neutral": "平衡",
+      "challenging": "挑战"
+    }
+  },
+  "language": {
+    "en": "EN",
+    "zh": "中文"
+  },
+  "footer": {
+    "disclaimer": "此命理分析仅供娱乐和个人参考。"
+  }
+}

@@ -1,0 +1,20 @@
+# Docker build context — exclude everything not needed in the image
+.git/
+.gitignore
+__pycache__/
+*.py[cod]
+.venv/
+.env
+node_modules/
+outputs/
+bazi-mingyi.skill
+bazi_app/
+web/frontend/node_modules/
+web/frontend/src/
+web/frontend/public/
+web/frontend/tsconfig*.json
+web/frontend/vite.config.ts
+web/frontend/package-lock.json
+web/frontend/package.json
+web/frontend/index.html
+README.md

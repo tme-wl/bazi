@@ -1,0 +1,14 @@
+# Bazi Mingyi — local/production deployment
+# Start with: docker compose up -d
+# Stop with:   docker compose down
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - BAZI_API_KEY=${BAZI_API_KEY:-}
+      - BAZI_API_BASE=${BAZI_API_BASE:-https://api.deepseek.com/v1}
+      - BAZI_API_MODEL=${BAZI_API_MODEL:-deepseek-v4-flash}
+    restart: unless-stopped

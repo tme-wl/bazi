@@ -1,0 +1,65 @@
+{
+  "app": {
+    "title": "Bazi Reading",
+    "subtitle": "Ancient Chinese Astrology, Modern Clarity"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About"
+  },
+  "home": {
+    "heroTitle": "Discover Your Destiny",
+    "heroSubtitle": "Uncover the patterns of your life through the ancient wisdom of Four Pillars of Destiny (Ba Zi). Gain insight into your career, relationships, health, and life path.",
+    "formTitle": "Enter Your Birth Information",
+    "birthDate": "Birth Date",
+    "birthTime": "Birth Time",
+    "gender": "Gender",
+    "genderMale": "Male",
+    "genderFemale": "Female",
+    "unknownTime": "Time unknown",
+    "analyzeButton": "Analyze My Bazi",
+    "analyzing": "Analyzing..."
+  },
+  "loading": {
+    "title": "Calculating Your Bazi",
+    "step1": "Reading celestial positions...",
+    "step2": "Calculating the Four Pillars...",
+    "step3": "Mapping elemental energies...",
+    "step4": "Interpreting life patterns...",
+    "step5": "Preparing your reading..."
+  },
+  "reading": {
+    "title": "Your Bazi Reading",
+    "fourPillars": "Four Pillars",
+    "dayMaster": "Day Master",
+    "elementChart": "Elemental Balance",
+    "patternSummary": "Pattern Summary",
+    "career": "Career & Vocation",
+    "wealth": "Wealth & Finance",
+    "relationships": "Relationships & Marriage",
+    "health": "Health & Vitality",
+    "advice": "Life Advice",
+    "luckTimeline": "Luck Cycle Timeline",
+    "overallAdvice": "Overall Guidance",
+    "adjustment": "Balance & Adjustment",
+    "element": {
+      "wood": "Wood",
+      "fire": "Fire",
+      "earth": "Earth",
+      "metal": "Metal",
+      "water": "Water"
+    },
+    "rating": {
+      "good": "Favorable",
+      "neutral": "Balanced",
+      "challenging": "Challenging"
+    }
+  },
+  "language": {
+    "en": "EN",
+    "zh": "中文"
+  },
+  "footer": {
+    "disclaimer": "This reading is for entertainment and personal reflection purposes only."
+  }
+}
