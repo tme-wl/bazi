@@ -1,6 +1,6 @@
-# Bazi Mingyi — Ba Zi Chinese Astrology
+# Bazi Mingyi — Web Shell
 
-A bilingual (English/中文) Ba Zi (Four Pillar) astrology web application, targeting Western audiences. Enter your birth date and get a detailed fate analysis.
+A bilingual (English/中文) Ba Zi (Four Pillar) astrology web application. Enter your birth date and get a detailed fate analysis.
 
 ```
                    ┌──────────────────┐
@@ -10,58 +10,68 @@ A bilingual (English/中文) Ba Zi (Four Pillar) astrology web application, targ
                             │
                    ┌────────▼─────────┐
                    │   API Server     │  web/server.py
-                   │  (web/server.py) │
                    └────────┬─────────┘
                             │
                    ┌────────▼─────────┐
-                   │   Core Engine    │  Pure Python, no web deps
+                   │   Core Engine    │  Private — skill/
                    │   (skill/)       │
-                   │                  │
-                   │  ┌─ calendar.py  │  Four Pillar calculation
-                   │  ├─ analyzer.py  │  Element scores, patterns
-                   │  ├─ parser.py    │  Birth info parser (CN/EN)
-                   │  ├─ renderer.py  │  HTML report generator
-                   │  └─ llm_provider │  OpenAI-compatible LLM
                    └──────────────────┘
 ```
 
-## Quick Start
+## Architecture
+
+This repo contains the **web shell only**. The core analysis engine (`skill/`) is a private dependency not included here.
+
+```
+bazi/
+├── web/                # Public — web shell
+│   ├── server.py       # FastAPI backend
+│   ├── requirements.txt
+│   ├── start_server.sh
+│   └── frontend/       # React + Vite + Tailwind SPA
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
+```
+
+## Quick Start (with skill/ present locally)
 
 ```bash
-cd /Users/aron/code/bazi
-
-# 1. Install dependencies
+cd /path/to/bazi/project
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r web/requirements.txt
 
-# 2. Configure API key (optional, for LLM-enhanced readings)
-#    Edit .env and set BAZI_API_KEY
-#    Without it, the system uses rule-based analysis (still works great)
+# Set API key for LLM-enhanced readings (optional)
+export BAZI_API_KEY=***
 
-# 3. Start the server
-./web/start_server.sh
-
-# 4. Open in browser
-open http://localhost:8000
+# Start server
+uvicorn web.server:app --host 0.0.0.0 --port 8000
 ```
 
-## CLI Usage (Core Engine Only)
+Open http://localhost:8000
 
-The core engine works independently, no web server needed:
+## Deploy to Server
 
 ```bash
-# English analysis
-python3 -m skill "1991-07-06 02:00 male" --lang en
+# 1. Clone this repo on your server
+git clone git@github.com:tme-wl/bazi.git /opt/bazi
 
-# Chinese analysis
-python3 -m skill "1991年7月6日 凌晨2点 男" --lang zh
+# 2. Deploy core engine separately (scp from local or private repo)
+scp -r skill/ user@server:/opt/bazi/skill/
 
-# Save HTML report
-python3 -m skill "1991-07-06 02:00 male" --lang en -o my-report.html
+# 3. Install & start
+cd /opt/bazi
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r web/requirements.txt
+cat > .env << 'EOF'
+BAZI_API_KEY=***
+EOF
 
-# Try LLM enhancement (if BAZI_API_KEY is set)
-python3 -m skill "1991-07-06 02:00 male" --lang en --llm
+# Start
+set -a; source .env; set +a
+uvicorn web.server:app --host 0.0.0.0 --port 8000
 ```
 
 ## API
@@ -76,7 +86,6 @@ python3 -m skill "1991-07-06 02:00 male" --lang en --llm
   "hour": 2,
   "minute": 0,
   "gender": "male",
-  "timezone": "Asia/Shanghai",
   "language": "en"
 }
 ```
@@ -89,80 +98,28 @@ Returns structured analysis with sections for personality, career, wealth, relat
 {
   "status": "ok",
   "version": "0.2.0",
-  "llm_enabled": true,
-  "timestamp": "2026-06-03T04:13:24Z"
+  "llm_enabled": true
 }
 ```
-
-## Project Structure
-
-```
-bazi/
-├── skill/                  # Core analysis engine (standalone)
-│   ├── __init__.py
-│   ├── __main__.py         # CLI entry point
-│   ├── models.py           # Data models
-│   ├── constants.py        # Astrological constants + English mappings
-│   ├── calendar.py         # Four Pillar calculation
-│   ├── parser.py           # Birth info parser (CN/EN formats)
-│   ├── analyzer.py         # Rule-based analysis + English text generation
-│   ├── llm_provider.py     # LLM integration (OpenAI-compatible)
-│   ├── prompt_builder.py   # LLM prompt construction
-│   ├── renderer.py         # HTML report renderer
-│   └── prompts/
-│       ├── bazi_mingyi.md      # Chinese analysis rules
-│       └── bazi_mingyi_en.md   # English analysis rules
-├── web/                    # Web shell
-│   ├── server.py           # FastAPI server
-│   ├── requirements.txt
-│   ├── start_server.sh
-│   └── frontend/           # React + Vite + Tailwind CSS
-│       ├── dist/           # Production build
-│       └── src/
-│           ├── pages/Home.tsx, Reading.tsx
-│           ├── components/
-│           ├── i18n/       # en.json, zh.json
-│           └── api/client.ts
-├── .env                    # API key configuration (gitignored)
-├── .gitignore
-└── README.md
-```
-
-## LLM Enhancement
-
-For richer, more nuanced readings, set an OpenAI-compatible API key:
-
-```bash
-# Edit .env
-BAZI_API_KEY=sk-your-key-here
-BAZI_API_BASE=https://api.deepseek.com/v1    # default: https://api.openai.com/v1
-BAZI_API_MODEL=deepseek-v4-flash             # default: gpt-4o-mini
-```
-
-When `BAZI_API_KEY` is set, the server automatically enhances all sections with LLM-generated text. Without it, the built-in rule engine generates thorough English analysis — the site works fully either way.
 
 ## Development
 
 ```bash
 # Backend (hot reload)
-cd /Users/aron/code/bazi
+cd /path/to/bazi/project
 uvicorn web.server:app --reload --port 8000
 
 # Frontend (hot reload)
-cd /Users/aron/code/bazi/web/frontend
+cd /path/to/bazi/project/web/frontend
 npm run dev
 ```
 
-The Vite dev server proxies `/api/*` requests to the backend on port 8000.
+## Design
 
-## Design Principles
-
-- **Core separated from web shell** — `skill/` is a pure Python package with no web dependencies
-- **Bilingual by default** — English primary, Chinese secondary
-- **Modern dark UI** — Clean minimal aesthetic with subtle Eastern touches
-- **Graceful degradation** — Pure rule analysis when no LLM available
-- **No login required** — MVP is fully open (rate limiting can be added later)
+- Dark modern UI, English-first targeting Western audiences
+- Bilingual (English/Chinese) via react-i18next
+- LLM-enhanced readings when BAZI_API_KEY is set; pure rule-based fallback otherwise
 
 ## Disclaimer
 
-This project is a traditional cultural tool for entertainment and self-reflection. It is not a substitute for medical, legal, or financial advice. Health-related content is based on folk astrology correspondences and should not replace professional medical diagnosis.
+Traditional cultural tool for entertainment and self-reflection. Not medical, legal, or financial advice.

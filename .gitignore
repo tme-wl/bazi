@@ -6,3 +6,7 @@ node_modules/
 dist/
 outputs/*.html
 outputs/*.md
+skill/
+prompts/
+bazi-mingyi.skill
+bazi_app/
